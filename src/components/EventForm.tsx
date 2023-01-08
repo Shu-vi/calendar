@@ -5,8 +5,7 @@ import {IUser} from "../models/IUser";
 import {IEvent} from "../models/IEvent";
 import {formatDate} from "../utils/date";
 import {Dayjs} from "dayjs";
-import {useSelector} from "react-redux";
-import {RootState} from "../store";
+import {useAppSelector} from "../hooks/redux";
 
 interface EventFormProps {
     guests: IUser[];
@@ -20,7 +19,7 @@ const EventForm: FC<EventFormProps> = (props) => {
         description: '',
         author: ''
     } as IEvent);
-    const {user} = useSelector((state: RootState) => state.authReducer);
+    const {user} = useAppSelector(state => state.authReducer);
     const [form] = Form.useForm();
 
     const selectDate = (date: Dayjs | null): void => {

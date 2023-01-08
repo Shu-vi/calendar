@@ -1,16 +1,15 @@
 import React, {FC} from 'react';
 import {Button, Form, Input} from "antd";
 import {rules} from "../utils/rules";
-import {useSelector} from "react-redux";
-import {RootState} from "../store";
-import {useActions} from "../hooks/useActions";
 import {IUser} from "../models/IUser";
+import {useAppDispatch, useAppSelector} from "../hooks/redux";
+import {login} from "../store/reducers/auth/actionCreators";
 
 const LoginForm: FC = () => {
-    const {login} = useActions();
-    const {error, isLoading} = useSelector((state: RootState) => state.authReducer);
+    const {error, isLoading} = useAppSelector(state => state.authReducer);
+    const dispatch = useAppDispatch();
     const onFinish = (user: IUser) => {
-        login(user.username, user.password);
+        dispatch(login(user.username, user.password));
     };
 
     return (

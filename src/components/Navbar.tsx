@@ -2,14 +2,13 @@ import React, {FC} from 'react';
 import {Layout, Menu, Row} from 'antd';
 import {useNavigate} from "react-router-dom";
 import {RouteNames} from "../router";
-import {useSelector} from "react-redux";
-import {RootState} from "../store";
-import {useActions} from "../hooks/useActions";
+import {logout} from "../store/reducers/auth/actionCreators";
+import {useAppDispatch, useAppSelector} from "../hooks/redux";
 
 const Navbar: FC = () => {
     const router = useNavigate();
-    const {logout} = useActions();
-    const {isAuth, user} = useSelector((state: RootState) => state.authReducer)
+    const dispatch = useAppDispatch();
+    const {isAuth, user} = useAppSelector(state => state.authReducer)
     return (
         <Layout.Header>
             <Row justify="end">
@@ -20,7 +19,7 @@ const Navbar: FC = () => {
                             <div style={{color: 'white'}}>
                                 {user.username}
                             </div>
-                            <Menu.Item onClick={logout} key={1}>Выйти</Menu.Item>
+                            <Menu.Item onClick={() => dispatch(logout())} key={1}>Выйти</Menu.Item>
                         </Menu>
                         :
                         <Menu theme='dark' mode='horizontal' selectable={false}>

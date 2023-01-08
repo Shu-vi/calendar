@@ -4,8 +4,10 @@ import './index.css';
 import App from './App';
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
-import {store} from "./store";
+import {setupStore} from "./store";
 
+
+const store = setupStore();
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

@@ -2,19 +2,18 @@ import React, {FC, useEffect, useState} from 'react';
 import EventCalendar from "../components/EventCalendar";
 import {Button, Layout, Modal, Row} from "antd";
 import EventForm from "../components/EventForm";
-import {useActions} from "../hooks/useActions";
-import {useSelector} from "react-redux";
-import {RootState} from "../store";
 import {IEvent} from "../models/IEvent";
+import {useAppDispatch, useAppSelector} from "../hooks/redux";
+import {createEvent, fetchEvents, fetchGuests} from '../store/reducers/event/actionCreators';
 
 const Event: FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const {fetchGuests, createEvent, fetchEvents} = useActions();
-    const {guests, events} = useSelector((state: RootState) => state.eventReducer);
-    const {user} = useSelector((state: RootState) => state.authReducer);
+    const {guests, events} = useAppSelector(state => state.eventReducer);
+    const {user} = useAppSelector(state => state.authReducer)
+    const dispatch = useAppDispatch();
     useEffect(() => {
-        fetchGuests();
-        fetchEvents(user.username);
+        dispatch(fetchGuests());
+        dispatch(fetchEvents(user.username));
     }, []);
 
     function onCancel(): void {
@@ -23,7 +22,7 @@ const Event: FC = () => {
 
     function submitForm(event: IEvent): void {
         setIsOpen(false);
-        createEvent(event);
+        dispatch(createEvent(event));
     }
 
     return (
